@@ -37,3 +37,24 @@ python codon_generator.py
 
 ## Author
 Bhavana m Pradeep
+
+## Comparison with a Reference Codon Table
+
+The codon mappings in this project are based on the standard genetic code. They can be compared with the reference repository:
+
+Reference: https://github.com/linsalrob/genetic_codes
+
+### Example Codon Comparison
+
+| Codon | Amino Acid |
+|---|---|
+| ATG | Methionine |
+| GCT | Alanine |
+| TTT | Phenylalanine |
+| TAA | Stop |
+| TAG | Stop |
+| TGA | Stop |
+
+These example codons match the standard genetic code.
+
+
