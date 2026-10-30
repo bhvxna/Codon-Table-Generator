@@ -43,7 +43,9 @@ codon_table = {
 start_codon = "ATG"
 stop_codons = {"TAA", "TAG", "TGA"}
 
-
+def translate_codons(codons):
+    amino_acids = translate_codons(codons)
+    return amino_acids
 def main():
     print("=== CODON TABLE GENERATOR ===")
     print("1. DNA sequence")
