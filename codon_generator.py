@@ -57,7 +57,6 @@ def validate_sequence(sequence, choice):
     return True, sequence
 
 
-# New function to split sequences into codons
 def split_codons(sequence):
     codons = [
         sequence[i:i + 3]
@@ -65,6 +64,13 @@ def split_codons(sequence):
     ]
     remainder = sequence[len(codons) * 3:]
     return codons, remainder
+
+
+# New function to identify start and stop codons
+def identify_start_stop(codons):
+    starts = [codon for codon in codons if codon == start_codon]
+    stops = [codon for codon in codons if codon in stop_codons]
+    return starts, stops
 
 
 def main():
@@ -93,7 +99,6 @@ def main():
             print("Error: DNA must contain only A, T, G, C.")
         return
 
-    # Use the new codon-splitting function
     codons, remainder = split_codons(sequence)
 
     print("\n=== CODON TABLE ===")
@@ -106,8 +111,8 @@ def main():
     amino_acids = translate_codons(codons)
     print(f"Amino acids: {' - '.join(amino_acids) if amino_acids else 'None'}")
 
-    starts = [c for c in codons if c == start_codon]
-    stops = [c for c in codons if c in stop_codons]
+    # Use the new start and stop identification function
+    starts, stops = identify_start_stop(codons)
 
     print(f"Start codons: {', '.join(starts) if starts else 'None'}")
     print(f"Stop codons: {', '.join(stops) if stops else 'None'}")
