@@ -66,11 +66,20 @@ def split_codons(sequence):
     return codons, remainder
 
 
-# New function to identify start and stop codons
 def identify_start_stop(codons):
     starts = [codon for codon in codons if codon == start_codon]
     stops = [codon for codon in codons if codon in stop_codons]
     return starts, stops
+
+
+# New function to display the codon table
+def display_codon_table():
+    print("\n=== CODON TABLE ===")
+    print("Codon       Amino Acid")
+    print("-----------------------------")
+
+    for codon in sorted(codon_table):
+        print(f"{codon:<12} {codon_table[codon]}")
 
 
 def main():
@@ -101,9 +110,8 @@ def main():
 
     codons, remainder = split_codons(sequence)
 
-    print("\n=== CODON TABLE ===")
-    for codon in sorted(codon_table):
-        print(f"{codon} : {codon_table[codon]}")
+    # Display the codon table using the new function
+    display_codon_table()
 
     print("\n=== TRANSLATION RESULT ===")
     print(f"Codons: {' - '.join(codons) if codons else 'None'}")
@@ -111,7 +119,6 @@ def main():
     amino_acids = translate_codons(codons)
     print(f"Amino acids: {' - '.join(amino_acids) if amino_acids else 'None'}")
 
-    # Use the new start and stop identification function
     starts, stops = identify_start_stop(codons)
 
     print(f"Start codons: {', '.join(starts) if starts else 'None'}")
