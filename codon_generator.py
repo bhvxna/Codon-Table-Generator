@@ -43,9 +43,24 @@ codon_table = {
 start_codon = "ATG"
 stop_codons = {"TAA", "TAG", "TGA"}
 
+
 def translate_codons(codons):
-    amino_acids = translate_codons(codons)
+    amino_acids = [codon_table[codon] for codon in codons]
     return amino_acids
+
+
+def validate_sequence(sequence, choice):
+    if choice == "2":
+        if any(base not in "AUGC" for base in sequence):
+            return False, sequence
+        return True, sequence.replace("U", "T")
+
+    if any(base not in "ATGC" for base in sequence):
+        return False, sequence
+
+    return True, sequence
+
+
 def main():
     print("=== CODON TABLE GENERATOR ===")
     print("1. DNA sequence")
@@ -63,16 +78,15 @@ def main():
         print("Error: Sequence cannot be empty.")
         return
 
-    # Convert RNA to DNA notation for translation
-    if choice == "2":
-        if any(base not in "AUGC" for base in sequence):
+    # Validate DNA or RNA sequence
+    valid, sequence = validate_sequence(sequence, choice)
+
+    if not valid:
+        if choice == "2":
             print("Error: RNA must contain only A, U, G, C.")
-            return
-        sequence = sequence.replace("U", "T")
-    else:
-        if any(base not in "ATGC" for base in sequence):
+        else:
             print("Error: DNA must contain only A, T, G, C.")
-            return
+        return
 
     # Divide sequence into complete codons
     codons = [
@@ -89,7 +103,7 @@ def main():
     print("\n=== TRANSLATION RESULT ===")
     print(f"Codons: {' - '.join(codons) if codons else 'None'}")
 
-    amino_acids = [codon_table[codon] for codon in codons]
+    amino_acids = translate_codons(codons)
     print(f"Amino acids: {' - '.join(amino_acids) if amino_acids else 'None'}")
 
     starts = [c for c in codons if c == start_codon]
@@ -109,3 +123,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    print("Total codons:", len(codon_table))
