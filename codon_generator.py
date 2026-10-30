@@ -72,7 +72,6 @@ def identify_start_stop(codons):
     return starts, stops
 
 
-# New function to display the codon table
 def display_codon_table():
     print("\n=== CODON TABLE ===")
     print("Codon       Amino Acid")
@@ -80,6 +79,19 @@ def display_codon_table():
 
     for codon in sorted(codon_table):
         print(f"{codon:<12} {codon_table[codon]}")
+
+
+# New function to display numbered translation results
+def display_translation(codons, amino_acids):
+    print("\n=== TRANSLATION RESULT ===")
+    print(f"Codons: {' - '.join(codons) if codons else 'None'}")
+
+    print("\nNumbered Amino Acid Sequence:")
+    if amino_acids:
+        for number, amino_acid in enumerate(amino_acids, start=1):
+            print(f"{number}. {amino_acid}")
+    else:
+        print("No amino acids found.")
 
 
 def main():
@@ -110,18 +122,16 @@ def main():
 
     codons, remainder = split_codons(sequence)
 
-    # Display the codon table using the new function
     display_codon_table()
 
-    print("\n=== TRANSLATION RESULT ===")
-    print(f"Codons: {' - '.join(codons) if codons else 'None'}")
-
     amino_acids = translate_codons(codons)
-    print(f"Amino acids: {' - '.join(amino_acids) if amino_acids else 'None'}")
+
+    # Display numbered translation results
+    display_translation(codons, amino_acids)
 
     starts, stops = identify_start_stop(codons)
 
-    print(f"Start codons: {', '.join(starts) if starts else 'None'}")
+    print(f"\nStart codons: {', '.join(starts) if starts else 'None'}")
     print(f"Stop codons: {', '.join(stops) if stops else 'None'}")
 
     if remainder:
