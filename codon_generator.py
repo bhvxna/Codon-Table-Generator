@@ -11,7 +11,6 @@ codon_table = {
     "TAA": "Stop", "TAG": "Stop",
     "TGT": "Cysteine", "TGC": "Cysteine",
     "TGA": "Stop", "TGG": "Tryptophan",
-
     "CTT": "Leucine", "CTC": "Leucine",
     "CTA": "Leucine", "CTG": "Leucine",
     "CCT": "Proline", "CCC": "Proline",
@@ -20,7 +19,6 @@ codon_table = {
     "CAA": "Glutamine", "CAG": "Glutamine",
     "CGT": "Arginine", "CGC": "Arginine",
     "CGA": "Arginine", "CGG": "Arginine",
-
     "ATT": "Isoleucine", "ATC": "Isoleucine",
     "ATA": "Isoleucine", "ATG": "Methionine",
     "ACT": "Threonine", "ACC": "Threonine",
@@ -29,7 +27,6 @@ codon_table = {
     "AAA": "Lysine", "AAG": "Lysine",
     "AGT": "Serine", "AGC": "Serine",
     "AGA": "Arginine", "AGG": "Arginine",
-
     "GTT": "Valine", "GTC": "Valine",
     "GTA": "Valine", "GTG": "Valine",
     "GCT": "Alanine", "GCC": "Alanine",
@@ -45,8 +42,7 @@ stop_codons = {"TAA", "TAG", "TGA"}
 
 
 def translate_codons(codons):
-    amino_acids = [codon_table[codon] for codon in codons]
-    return amino_acids
+    return [codon_table[codon] for codon in codons]
 
 
 def validate_sequence(sequence, choice):
@@ -59,6 +55,16 @@ def validate_sequence(sequence, choice):
         return False, sequence
 
     return True, sequence
+
+
+# New function to split sequences into codons
+def split_codons(sequence):
+    codons = [
+        sequence[i:i + 3]
+        for i in range(0, len(sequence) - 2, 3)
+    ]
+    remainder = sequence[len(codons) * 3:]
+    return codons, remainder
 
 
 def main():
@@ -78,7 +84,6 @@ def main():
         print("Error: Sequence cannot be empty.")
         return
 
-    # Validate DNA or RNA sequence
     valid, sequence = validate_sequence(sequence, choice)
 
     if not valid:
@@ -88,13 +93,8 @@ def main():
             print("Error: DNA must contain only A, T, G, C.")
         return
 
-    # Divide sequence into complete codons
-    codons = [
-        sequence[i:i + 3]
-        for i in range(0, len(sequence) - 2, 3)
-    ]
-
-    remainder = sequence[len(codons) * 3:]
+    # Use the new codon-splitting function
+    codons, remainder = split_codons(sequence)
 
     print("\n=== CODON TABLE ===")
     for codon in sorted(codon_table):
@@ -120,7 +120,8 @@ def main():
     if choice == "2":
         print("Input type: RNA")
 
+    print("Total codons:", len(codon_table))
+
 
 if __name__ == "__main__":
     main()
-    print("Total codons:", len(codon_table))
